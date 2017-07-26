@@ -6,6 +6,22 @@ import hackbright
 
 app = Flask(__name__)
 
+@app.route("/project")
+def project_info():
+    """Given a project: list the title, description and masimum grade of a project."""
+
+    title = request.args.get('title')
+    
+    title, description, max_grade = hackbright.get_project_by_title(title)
+
+    rows = hackbright.get_grades_by_title(title)
+    html = render_template("project_info.html", 
+                          title=title, 
+                          description=description, 
+                          max_grade=max_grade,
+                          rows=rows)
+
+    return html
 
 @app.route("/new-student")
 def add_student_form():
